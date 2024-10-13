@@ -135,4 +135,19 @@ class LystTest
         assertEquals("->4<->3<->2<->1->", lyst.backwardIterator());
     }
 
+    @Test
+    void forwardIterator()
+    {
+        Lyst<Integer> lyst = new Lyst<>();
+        assertEquals("->", lyst.toString());
+        lyst.addFirst(4);
+        assertEquals("->4->", lyst.toString());
+        lyst.addFirst(3);
+        assertEquals("->3<->4->", lyst.toString());
+        lyst.addFirst(1);
+        assertEquals("->1<->3<->4->", lyst.toString());
+        lyst.addBefore(2, 3);
+        assertEquals("->1<->2<->3<->4->", lyst.forwardIterator());
+    }
+
 }
