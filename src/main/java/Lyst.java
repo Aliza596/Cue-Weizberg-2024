@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * Lyst - our implementation of a doubly linked list
@@ -79,6 +80,11 @@ public class Lyst<T> implements ILyst<T>
         elements.put(value, node);
     }
 
+    /**
+     * contains - check if element exists in our linked list
+     *
+     * @param value : T - value to be checked if it exists in the list
+     */
     @Override
     public Boolean contains(T value)
     {
@@ -86,6 +92,13 @@ public class Lyst<T> implements ILyst<T>
     }
 
 
+    /**
+     * addFirst - add a new element to our linked list
+     *
+     * @param value : T - value to be added to the list
+     * @param before : T - add the value before this element
+     * @return found: whether the value was added or not
+     */
     public Boolean addBefore(T value, T before)
     {
         boolean found = elements.containsKey(before);
@@ -109,6 +122,13 @@ public class Lyst<T> implements ILyst<T>
     }
 
 
+    /**
+     * addAfter - add a new element to our linked list
+     *
+     * @param value : T - value to be added to the list
+     * @param after : T - add the value after this element
+     * @return found : boolean - if the value was added to the list
+     */
     public Boolean addAfter(T value, T after)
     {
         boolean found = elements.containsKey(after);
@@ -130,18 +150,35 @@ public class Lyst<T> implements ILyst<T>
         return found;
     }
 
+    /**
+     * getFirst - returns the first value in a list
+     *
+     * @return value : T - value that is in the first position of the list
+     */
     @Override
     public T getFirst()
     {
         return first == null ? null : (T) first.value;
     }
 
+
+    /**
+     * getLast - returns the last value in a list
+     *
+     * @return value : T - the last value in the list
+     */
     @Override
     public T getLast()
     {
         return last == null ? null : (T) last.value;
     }
 
+    /**
+     * getNext - returns the next value in the list
+     *
+     * @param value : T - the value before the one that you want
+     * @return value : T - the next value in the list
+     */
     @Override
     public T getNext(T value)
     {
@@ -150,6 +187,12 @@ public class Lyst<T> implements ILyst<T>
         return next == null ? null : (T) next.value;
     }
 
+    /**
+     * getPrev - returns the previous value in the list
+     *
+     * @param value : T - value in which you want the one before it
+     * @return value : T - the previous value in the list
+     */
     @Override
     public T getPrev(T value)
     {
@@ -158,6 +201,11 @@ public class Lyst<T> implements ILyst<T>
         return previous == null ? null : (T) previous.value;
     }
 
+    /**
+     * toString - convert the list to a string
+     *
+     * @return String : the list as a string in order
+     */
     public String toString()
     {
         StringBuilder sb = new StringBuilder("->");
@@ -171,29 +219,87 @@ public class Lyst<T> implements ILyst<T>
         return sb.toString();
     }
 
-    public String forwardIterator()
+    public class ForwardLystIterator implements Iterator<T>
     {
-        StringBuilder sb = new StringBuilder("->");
-        Node<T> curr = first;
-        while (curr != null)
+        public Node<T> node;
+
+        public ForwardLystIterator()
         {
-            sb.append(curr.value.toString());
-            sb.append(curr.next == null ? "->" : "<->");
-            curr = curr.next;
+            node = first;
         }
-        return sb.toString();
+
+        /**
+         * hasNext - checks if there is a next value in the list
+         *
+         * @return boolean: is there another value
+         */
+        @Override
+        public boolean hasNext() {
+            return node != null;
+        }
+
+        /**
+         * next - returns the next value
+         *
+         * @return value : T - the next value in the list
+         */
+
+        @Override
+        public T next() {
+            if (node == null)
+            {
+                return null;
+            }
+            T val = node.value;
+            node = node.next;
+            return val;
+        }
+
     }
 
-    public String backwardIterator()
+    public class BackwardLystIterator implements Iterator<T>
     {
-        StringBuilder sb = new StringBuilder("->");
-        Node<T> curr = last;
-        while (curr != null)
+        public Node<T> node;
+
+        public BackwardLystIterator()
         {
-            sb.append(curr.value.toString());
-            sb.append(curr.prev == null ? "->" : "<->");
-            curr = curr.prev;
+            node = last;
         }
-        return sb.toString();
+
+        /**
+         * hasPrev - checks if there is a previous value in the list
+         *
+         * @return boolean : if there is a previous value
+         */
+        public boolean hasPrev()
+        {
+            return hasNext();
+        }
+        @Override
+        public boolean hasNext() {
+            return node != null;
+        }
+
+        /**
+         * prev - returns the previous value in the list
+         *
+         * @return T : The previous value in the list
+         */
+        public T prev()
+        {
+            return next();
+        }
+        @Override
+        public T next() {
+            if (node == null)
+            {
+                return null;
+            }
+            T val = node.value;
+            node = node.prev;
+            return val;
+        }
     }
+
+
 }

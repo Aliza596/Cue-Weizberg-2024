@@ -119,20 +119,38 @@ class LystTest
         assertEquals(2, lyst.getPrev(3));
     }
 
+
     @Test
-    void backwardIterator()
+    void ForwardIterator()
     {
-        Lyst<Integer> lyst = new Lyst<>();
-        assertEquals("->", lyst.toString());
-        lyst.addFirst(4);
-        assertEquals("->4->", lyst.toString());
-        lyst.addFirst(3);
-        assertEquals("->3<->4->", lyst.toString());
-        lyst.addFirst(1);
-        assertEquals("->1<->3<->4->", lyst.toString());
-        lyst.addBefore(2, 3);
-        assertEquals("->1<->2<->3<->4->", lyst.toString());
-        assertEquals("->4<->3<->2<->1->", lyst.backwardIterator());
+        Lyst<Integer> list = new Lyst<>();
+        list.addFirst(1);
+        list.addLast(2);
+        list.addLast(3);
+        Lyst<Integer>.ForwardLystIterator iterator = list.new ForwardLystIterator();
+        StringBuilder sb = new StringBuilder();
+        while (iterator.hasNext())
+        {
+            sb.append(iterator.next());
+        }
+        assertEquals("123", sb.toString());
     }
+
+    @Test
+    void BackwardIterator()
+    {
+        Lyst<Integer> list = new Lyst<>();
+        list.addFirst(1);
+        list.addLast(2);
+        list.addLast(3);
+        Lyst<Integer>.BackwardLystIterator iterator = list.new BackwardLystIterator();
+        StringBuilder sb = new StringBuilder();
+        while (iterator.hasPrev())
+        {
+            sb.append(iterator.prev());
+        }
+        assertEquals("321", sb.toString());
+    }
+
 
 }
