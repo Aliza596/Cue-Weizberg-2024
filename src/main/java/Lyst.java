@@ -78,6 +78,7 @@ public class Lyst<T> implements ILyst<T>
             last = node;
         }
         elements.put(value, node);
+        System.out.println(elements);
     }
 
     /**
@@ -102,10 +103,10 @@ public class Lyst<T> implements ILyst<T>
     public Boolean addBefore(T value, T before)
     {
         boolean found = elements.containsKey(before);
+        Node node = new Node(value);
         if (found)
         {
             Node curr = elements.get(before);
-            Node node = new Node(value);
 
             if (curr.prev != null)
             {
@@ -118,6 +119,7 @@ public class Lyst<T> implements ILyst<T>
             curr.prev = node;
             node.next = curr;
         }
+        elements.put(value, node);
         return found;
     }
 
@@ -132,11 +134,11 @@ public class Lyst<T> implements ILyst<T>
     public Boolean addAfter(T value, T after)
     {
         boolean found = elements.containsKey(after);
+        Node node = new Node(value);
+
         if (found)
         {
             Node curr = elements.get(after);
-            Node node = new Node(value);
-
             if (curr.next != null) {
                 Node next = curr.next;
                 node.next = next;
@@ -147,6 +149,7 @@ public class Lyst<T> implements ILyst<T>
             curr.next = node;
             node.prev = curr;
         }
+        elements.put(value, node);
         return found;
     }
 
@@ -199,6 +202,79 @@ public class Lyst<T> implements ILyst<T>
         Node curr = elements.get(value);
         Node previous = curr.prev;
         return previous == null ? null : (T) previous.value;
+    }
+
+    /**
+     * remove - removes a given value from the list
+     * @param value : T value you would like to remove from the cue
+     * @return boolean : whether or not the value was removed
+     */
+
+    public boolean remove(T value)
+    {
+        boolean found = elements.containsKey(value);
+
+        if (found)
+        {
+            Node nodeToRemove = elements.get(value);
+            Node prev = nodeToRemove.prev;
+            Node next = nodeToRemove.next;
+            if (first == nodeToRemove)
+            {
+                first = next;
+            } else if (last == nodeToRemove)
+            {
+                last = prev;
+            }
+
+            if (prev != null)
+            {
+                prev.next = next;
+            }
+            if (next != null)
+            {
+                next.prev = prev;
+            }
+
+            elements.remove(value);
+        }
+        return found;
+    }
+
+    /**
+     * remove - removes the first value from the list
+     * @return boolean : whether or not the value was removed
+     */
+    public boolean removeFirst()
+    {
+        if (first == null)
+        {
+            return false;
+        }
+        if (first.next != null)
+        {
+            first = first.next;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeLast()
+    {
+        if (last == null)
+        {
+            return false;
+        }
+        if (last.prev != null)
+        {
+            last = last.prev;
+            last.next = null;
+            return true;
+        } else {
+            first = null;
+            last = null;
+        }
+        return false;
     }
 
     /**

@@ -152,5 +152,69 @@ class LystTest
         assertEquals("321", sb.toString());
     }
 
+    @Test
+    void contains()
+    {
+        Lyst<Integer> lyst = new Lyst<>();
+        lyst.addFirst(1);
+        lyst.addLast(2);
+        lyst.addLast(3);
+        assertEquals(true, lyst.contains(2));
+    }
+
+    @Test
+    void remove()
+    {
+        Lyst<Integer> lyst = new Lyst<>();
+        lyst.addFirst(1);
+        lyst.addLast(2);
+        lyst.addLast(3);
+        lyst.remove(2);
+        assertEquals("->1<->3->", lyst.toString());
+    }
+
+    @Test
+    void removeFirstWithRemove()
+    {
+        Lyst<Integer> lyst = new Lyst<>();
+        lyst.addFirst(1);
+        lyst.addLast(2);
+        lyst.addLast(3);
+        lyst.remove(1);
+        assertEquals("->2<->3->", lyst.toString());
+    }
+
+    @Test
+    void removeLastWithRemove()
+    {
+        Lyst<Integer> lyst = new Lyst<>();
+        lyst.addFirst(1);
+        lyst.addLast(2);
+        lyst.addLast(3);
+        lyst.remove(3);
+        assertEquals("->1<->2->", lyst.toString());
+    }
+
+    @Test
+    void removeFirst()
+    {
+        Lyst<Integer> lyst = new Lyst<>();
+        lyst.addFirst(1);
+        lyst.addLast(2);
+        lyst.addLast(3);
+        lyst.removeFirst();
+        assertEquals("->2<->3->", lyst.toString());
+    }
+
+    @Test
+    void removeLast()
+    {
+        Lyst<Integer> lyst = new Lyst<>();
+        lyst.addFirst(1);
+        lyst.addLast(2);
+        lyst.addLast(3);
+        lyst.removeLast();
+        assertEquals("->1<->2->", lyst.toString());
+    }
 
 }
